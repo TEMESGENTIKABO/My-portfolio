@@ -41,10 +41,10 @@ export const experience: ExperienceItem[] = [
   },
   {
     year: "2025",
-    title: "Sinkata Tech",
+    title: "Temesgen.tech",
     tags: ["Next.js", "React Native", "SaaS"],
     description:
-      "Planning to launch a software development company focused on web and mobile solutions.",
+      "launched a software development company focused on web and mobile solutions.",
     icon: "rocket",
   },
 ];

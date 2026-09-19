@@ -62,7 +62,6 @@ export default function Footer() {
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-line pt-6 text-xs text-paper-faint sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {year} Temesgen T. Gebremariam. All rights reserved.</p>
-         
         </div>
       </div>
     </footer>
