@@ -59,10 +59,11 @@ export default function Hero() {
           variants={reduce ? undefined : item}
           className="mt-6 max-w-2xl leading-relaxed text-paper-dim"
         >
-          Full-stack developer specializing in modern web technologies. I turn
-          complex problems into fast, reliable products — currently pursuing an
-          MBA alongside research in data mining, and shipping mobile and web
-          apps used by thousands of people.
+          Full-stack developer specializing in modern web technologies. I build
+          fast, reliable web and mobile applications that solve complex problems
+          and serve thousands of users. With an MBA and a background in data
+          mining research, I bring both technical expertise and business insight
+          to every project.
         </motion.p>
 
         <motion.div
