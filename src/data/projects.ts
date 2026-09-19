@@ -14,6 +14,34 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "daqin-auto",
+    title: "Daqin Auto - Premium Chinese Vehicle Export Platform",
+    description:
+      "Modern automotive export platform for showcasing and sourcing premium Chinese electric, hybrid, and gasoline vehicles worldwide",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Responsive Design",
+      "Vehicle Catalog",
+      "WhatsApp Integration",
+    ],
+    metrics: [
+      "35+ vehicle brands showcased",
+      "Multi-category vehicle catalog",
+      "EV, PHEV, REEV & ICE inventory",
+      "24/7 customer inquiry channels",
+    ],
+    demoUrl: "https://www.daqinauto.com/",
+    githubUrl: "",
+    image: "/projects/daqin-auto.jpg",
+    categories: ["Automotive", "E-Commerce", "Full-Stack"],
+    problem:
+      "Daqin Auto needed a modern digital platform to present a large selection of Chinese vehicles to international customers while making it easy to browse brands, explore vehicle specifications, check availability, and request pricing.",
+    solution:
+      "Built a responsive automotive export platform with structured vehicle and brand catalogs, categorized inventory, detailed vehicle information, availability indicators, and direct inquiry flows through WhatsApp and other communication channels. The platform supports EV, PHEV, REEV, and ICE vehicles while providing a polished experience for international customers researching and sourcing vehicles from China.",
+  },
+  {
     slug: "ecommerce-platform",
     title: "High-Performance E-Commerce Platform",
     description:
