@@ -1,178 +1,143 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import { Menu, X, GitHub, Linkedin } from "react-feather";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact" },
+];
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const reduce = useReducedMotion();
 
-  // Scroll handler for sticky navbar
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close dropdowns when clicking outside
+  useEffect(() => setOpen(false), [pathname]);
+
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsMobileMenuOpen(false);
-      }
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Active link styling
-  const isActive = (path: string) => pathname === path;
-
-  // Navbar links
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/projects", label: "Projects" },
-    { href: "/contact", label: "Contact" },
-  ];
+  }, [open]);
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b transition-all duration-300 ${
-        isScrolled
-          ? "border-gray-200/80 dark:border-gray-800/80 shadow-sm"
-          : "border-transparent"
-      }`}
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        scrolled || open
+          ? "border-b border-line bg-ink/85 backdrop-blur-md"
+          : "border-b border-transparent",
+      )}
     >
-      <div className="container mx-auto px-4 flex items-center justify-between h-16">
-        {/* Logo with Animation */}
-        <motion.div
-          whileHover={{ scale: 1.1, rotate: [-2, 2, -2, 0] }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ type: "spring", stiffness: 300, damping: 15 }}
-          className="relative group inline-block cursor-pointer"
+      <nav
+        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
+        aria-label="Main navigation"
+      >
+        <Link
+          href="/"
+          className="font-display text-lg tracking-tight"
+          onClick={() => setOpen(false)}
         >
-          <Link
-            href="/"
-            className="text-sm md:text-base font-bold inline-block text-white drop-shadow-md hover:drop-shadow-lg transition-all duration-300"
-          >
-            <span className="relative block">
-              Temesgen Gebremariam
-              {/* Animated underline with gradient */}
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-500 origin-left transform scale-x-0 group-hover:scale-x-105" />
-              {/* Optional: Add a subtle glow effect on hover */}
-              <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-gradient-to-r from-purple-600 to-pink-600 blur-sm transition-opacity duration-500" />
-            </span>
-          </Link>
-        </motion.div>
+          Temesgen<span className="text-accent">.</span>dev
+        </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <motion.div
-              key={link.href}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+        <div className="hidden items-center gap-1 md:flex">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              aria-current={pathname === l.href ? "page" : undefined}
+              className={cn(
+                "relative rounded-full px-4 py-2 text-sm transition-colors",
+                pathname === l.href
+                  ? "text-paper"
+                  : "text-paper-dim hover:text-paper",
+              )}
             >
-              <Link
-                href={link.href}
-                className={`relative px-3 py-2 ${
-                  isActive(link.href)
-                    ? "text-gray-900 dark:text-white"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                }`}
-              >
-                {link.label}
-                {isActive(link.href) && (
-                  <motion.span
-                    layoutId="underline"
-                    className="absolute left-0 top-full h-[2px] w-full bg-purple-600 dark:bg-purple-400"
-                  />
-                )}
-              </Link>
-            </motion.div>
+              {l.label}
+              {pathname === l.href && (
+                <motion.span
+                  layoutId="nav-pill"
+                  className="absolute inset-0 -z-10 rounded-full bg-white/5 ring-1 ring-line"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+            </Link>
           ))}
-
-          {/* Social Icons */}
-         
+          <Link
+            href="/contact"
+            className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink transition hover:bg-accent-soft"
+          >
+            Let&rsquo;s talk <ArrowUpRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+        <button
+          type="button"
+          className="p-2 text-paper md:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </motion.button>
-      </div>
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {open && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800"
+            initial={reduce ? false : { opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-line bg-ink/95 backdrop-blur-md md:hidden"
           >
-            <div className="container mx-auto px-4 py-4 space-y-4">
-              {navLinks.map((link) => (
+            <div className="flex flex-col gap-1 px-5 py-4">
+              {links.map((l, i) => (
                 <motion.div
-                  key={link.href}
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+                  key={l.href}
+                  initial={reduce ? false : { opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 * i }}
                 >
                   <Link
-                    href={link.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-4 py-2 ${
-                      isActive(link.href)
-                        ? "text-purple-600 dark:text-purple-400"
-                        : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                    }`}
+                    href={l.href}
+                    className={cn(
+                      "block rounded-lg px-4 py-3 text-base",
+                      pathname === l.href
+                        ? "bg-white/5 text-paper"
+                        : "text-paper-dim",
+                    )}
                   >
-                    {link.label}
+                    {l.label}
                   </Link>
                 </motion.div>
               ))}
-
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
-                <div className="flex items-center space-x-4">
-                  <motion.a
-                    whileHover={{ y: -2 }}
-                    href="https://github.com/TEMESGENTIKABO"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                  >
-                    <GitHub size={20} />
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ y: -2 }}
-                    href="https://www.linkedin.com/in/temesgen-t-gebremariam-858483121/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-                  >
-                    <Linkedin size={20} />
-                  </motion.a>
-                </div>
-              </div>
+              <Link
+                href="/contact"
+                className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 text-sm font-semibold text-ink"
+              >
+                Let&rsquo;s talk <ArrowUpRight className="h-4 w-4" />
+              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 }

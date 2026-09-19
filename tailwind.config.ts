@@ -1,42 +1,26 @@
 import type { Config } from "tailwindcss";
-import containerQueries from '@tailwindcss/container-queries';
 
 export default {
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      screens: {
-        xs: '480px',
-        sm: '640px',
-        md: '768px',
-        lg: '1024px',
-        xl: '1280px',
-        '2xl': '1536px',
-      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      boxShadow: {
-        'blue-glow': '0 0 20px -5px rgba(96, 165, 250, 0.3)',
-        'xl-glow': '0 0 40px -10px rgba(96, 165, 250, 0.3)',
-        'inner-glow': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.05)'
+        ink: {
+          DEFAULT: "#0A0B0E",
+          800: "#101218",
+          700: "#161922",
+          600: "#1E2230",
+        },
+        paper: { DEFAULT: "#ECEAE4", dim: "#A6ABB5", faint: "#6E7480" },
+        accent: { DEFAULT: "#E0A63F", soft: "#EFC878" },
+        line: "rgba(236,234,228,0.09)",
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
-        mono: ['var(--font-roboto-mono)', 'monospace']
-      }
-  }
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+      },
+    },
   },
-  plugins: [
-    containerQueries,
-  ],
+  plugins: [],
 } satisfies Config;

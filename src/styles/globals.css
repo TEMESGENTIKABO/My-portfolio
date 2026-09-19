@@ -3,82 +3,31 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink font-sans text-paper antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    @apply bg-accent text-ink;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/60 ring-offset-2 ring-offset-ink;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Smooth link transitions */
-a {
-  transition: color 0.2s ease;
-}
-
-/* Project card hover effect */
-.project-card {
-  transition: transform 0.2s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-}
-/* Navbar styles */
-nav {
-  @apply fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800;
-}
-
-/* Smooth transitions for navbar */
-nav * {
-  @apply transition-all duration-200;
-}
-
-/* Mobile menu backdrop */
-.mobile-menu-backdrop {
-  @apply bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-800;
-}
-/* Add to globals.css */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.backdrop-blur-md {
-  backdrop-filter: blur(12px);
-}
-.skill-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-:root {
-  --font-inter: 'Inter', sans-serif;
-  --font-roboto-mono: 'Roboto Mono', monospace;
-}
-/* Timeline connector line */
-.timeline-connector {
-  @apply absolute w-1 bg-gray-200 dark:bg-gray-700 left-1/2 -translate-x-1/2;
-  height: calc(100% - 4rem);
-  top: 2rem;
-}
-
-/* Emoji hover effects */
-.emoji-hover {
-  @apply transition-transform duration-300 hover:scale-110;
-}
-
-/* Gradient text */
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
