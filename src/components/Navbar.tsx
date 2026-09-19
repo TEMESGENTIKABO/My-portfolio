@@ -53,7 +53,7 @@ export default function Navbar() {
           className="font-display text-lg tracking-tight"
           onClick={() => setOpen(false)}
         >
-          Temesgen<span className="text-accent">.</span>dev
+          Temesgen<span className="text-accent">.</span>tech
         </Link>
 
         <div className="hidden items-center gap-1 md:flex">
