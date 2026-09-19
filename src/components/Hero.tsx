@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
-import ResumeButton from "@/components/ResumeButton";
 
 const container: Variants = {
   hidden: {},
@@ -80,7 +79,7 @@ export default function Hero() {
               aria-hidden="true"
             />
           </Link>
-          <ResumeButton />
+
           <Link
             href="/contact"
             className="inline-flex items-center gap-1.5 rounded-full border border-line px-6 py-3 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
