@@ -12,20 +12,27 @@ const navLinks = [
 ];
 
 const socialIcons: Record<string, React.ReactNode> = {
-  github: <FiGithub className="h-5 w-5" />,
-  linkedin: <FiLinkedin className="h-5 w-5" />,
-  twitter: <FiTwitter className="h-5 w-5" />,
-  email: <FiMail className="h-5 w-5" />,
+  github: <FiGithub className="h-4 w-4" />,
+  linkedin: <FiLinkedin className="h-4 w-4" />,
+  twitter: <FiTwitter className="h-4 w-4" />,
+  email: <FiMail className="h-4 w-4" />,
 };
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-line">
+    <footer className="relative border-t border-line bg-gradient-to-b from-transparent to-white/[0.015]">
+      {/* Subtle top glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"
+      />
+
+      {/* CTA Marquee */}
       <Link
         href="/contact"
-        className="group block border-b border-line py-14 transition-colors hover:bg-white/[0.02] md:py-20"
+        className="group block border-b border-line py-8 transition-colors hover:bg-white/[0.02] md:py-10"
       >
         <Marquee
           items={["Let's build something great"]}
@@ -33,67 +40,78 @@ export default function Footer() {
         />
       </Link>
 
-      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
-          <div>
-            <p className="font-display text-lg tracking-tight">
-              Temesgen Gebremariam
-            </p>
-            <p className="mt-2 max-w-xs text-sm leading-relaxed text-paper-dim">
-              Full-stack developer building scalable web &amp; mobile products
-              from Nanjing, China.
-            </p>
-            <div className="mt-6 flex gap-4">
-              {contactData.socialLinks.map((s) => (
-                <a
-                  key={s.name}
-                  href={s.url}
-                  target={s.url.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  aria-label={s.name}
-                  className="text-paper-dim transition-colors hover:text-accent"
-                >
-                  {socialIcons[s.icon]}
-                </a>
-              ))}
+      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
+        {/* Main row */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          {/* Brand + tagline */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.02] font-display text-sm font-medium text-paper transition-colors hover:border-accent/40 hover:text-accent"
+              aria-label="Home"
+            >
+              TG
+            </Link>
+            <div>
+              <p className="font-display text-sm tracking-tight text-paper">
+                Temesgen Gebremariam
+              </p>
+              <p className="text-xs text-paper-dim">
+                Full-stack developer · Nanjing, China
+              </p>
             </div>
           </div>
 
-          <nav aria-label="Footer">
-            <p className="font-mono text-xs uppercase tracking-widest text-paper-faint">
-              Navigate
-            </p>
-            <ul className="mt-4 space-y-3">
-              {navLinks.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="inline-flex items-center gap-1.5 text-sm text-paper-dim transition-colors hover:text-paper"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Nav links */}
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-center gap-x-5 gap-y-2"
+          >
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="group relative text-sm text-paper-dim transition-colors hover:text-paper"
+              >
+                {l.label}
+                <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
           </nav>
 
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-paper-faint">
-              Get in touch
-            </p>
-            <a
-              href={`mailto:${contactData.email}`}
-              className="mt-4 inline-flex items-center gap-1.5 text-sm text-paper-dim transition-colors hover:text-accent"
-            >
-              {contactData.email} <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
-            <p className="mt-3 text-sm text-paper-dim">{contactData.phone}</p>
+          {/* Socials */}
+          <div className="flex items-center gap-2">
+            {contactData.socialLinks.map((s) => (
+              <a
+                key={s.name}
+                href={s.url}
+                target={s.url.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                aria-label={s.name}
+                className="grid h-9 w-9 place-items-center rounded-full border border-line text-paper-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+              >
+                {socialIcons[s.icon]}
+              </a>
+            ))}
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-2 border-t border-line pt-6 text-xs text-paper-faint sm:flex-row sm:items-center sm:justify-between">
+        {/* Bottom bar */}
+        <div className="mt-6 flex flex-col gap-3 border-t border-line pt-5 text-xs text-paper-faint sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {year} Temesgen T. Gebremariam. All rights reserved.</p>
-          <p>Built with Next.js &amp; Tailwind CSS.</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <a
+              href={`mailto:${contactData.email}`}
+              className="inline-flex items-center gap-1 transition-colors hover:text-accent"
+            >
+              {contactData.email}
+              <ArrowUpRight className="h-3 w-3" />
+            </a>
+            <span className="hidden text-paper-faint/50 sm:inline">·</span>
+            <span>{contactData.phone}</span>
+            <span className="hidden text-paper-faint/50 sm:inline">·</span>
+            <span>Built with Next.js &amp; Tailwind</span>
+          </div>
         </div>
       </div>
     </footer>

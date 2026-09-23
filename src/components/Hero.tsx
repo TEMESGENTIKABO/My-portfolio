@@ -175,14 +175,13 @@ export default function Hero() {
             className="min-w-0 max-w-xl"
           >
             <p className="font-display text-3xl leading-snug text-paper">
-              Full-stack developer &amp; founder of{" "}
-              <span className="text-accent-soft">temesgen.tech</span>
+              Full-stack developer
             </p>
             <p className="mt-4 leading-relaxed text-paper-dim">
-              I design and build scalable web platforms — from pixel to
-              production. MBA candidate researching data-driven forecasting, and
-              builder of tools that carry Ethiopian &amp; Tigrayan heritage into
-              modern software.
+              Full-stack JavaScript developer and builder. I work across the
+              modern software stack, employ AI as a working tool, and ship tools
+              that carry into production. MBA candidate researching data-driven
+              forecasting — additional certificate, not the identity.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
