@@ -2,29 +2,53 @@
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
+import Marquee from "@/components/Marquee";
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
 };
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 28 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+const stats = [
+  { value: "5+", label: "Years shipping products" },
+  { value: "10+", label: "Applications launched" },
+  { value: "MBA", label: "Business × engineering" },
+  { value: "2", label: "Languages I build in — English & Amharic" },
+];
+
+const stack = [
+  "Next.js",
+  "TypeScript",
+  "React",
+  "Node.js",
+  "PostgreSQL",
+  "Docker",
+  "AWS",
+  "Tailwind CSS",
+];
 
 export default function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden pb-20 pt-36 md:pb-28 md:pt-48">
+    <section className="relative overflow-hidden border-b border-line pt-28 md:pt-40">
+      {/* Background grid + glow */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(236,234,228,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(236,234,228,0.04)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_top,black_25%,transparent_75%)]" />
-        <div className="absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-accent/10 blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(243,241,234,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(243,241,234,0.045)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
+        <motion.div
+          className="absolute -top-40 left-[10%] h-[28rem] w-[28rem] rounded-full bg-accent/10 blur-[100px]"
+          animate={reduce ? undefined : { opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
 
       <motion.div
@@ -33,62 +57,180 @@ export default function Hero() {
         animate="show"
         className="mx-auto max-w-6xl px-5 sm:px-8"
       >
-        <motion.p
-          variants={reduce ? undefined : item}
-          className="flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.25em] text-accent"
-        >
-          <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-          Full-Stack Developer · Nanjing, China
-        </motion.p>
-
-        <motion.h1
-          variants={reduce ? undefined : item}
-          className="mt-6 max-w-4xl font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
-        >
-          Temesgen <span className="italic text-accent-soft">Gebremariam</span>
-        </motion.h1>
-
-        <motion.p
-          variants={reduce ? undefined : item}
-          className="mt-4 max-w-2xl font-display text-xl text-paper-dim sm:text-2xl"
-        >
-          I design and build scalable web platforms — from pixel to production.
-        </motion.p>
-
-        <motion.p
-          variants={reduce ? undefined : item}
-          className="mt-6 max-w-2xl leading-relaxed text-paper-dim"
-        >
-          Full-stack developer specializing in modern web technologies. I build
-          fast, reliable web and mobile applications that solve complex problems
-          and serve thousands of users. With an MBA and a background in data
-          mining research, I bring both technical expertise and business insight
-          to every project.
-        </motion.p>
-
+        {/* Status bar */}
         <motion.div
           variants={reduce ? undefined : item}
-          className="mt-10 flex flex-wrap items-center gap-4"
+          className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-5 sm:gap-4 sm:pb-6"
         >
-          <Link
-            href="/projects"
-            className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
-          >
-            View my work
-            <ArrowRight
-              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+          <p className="flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-accent sm:text-xs sm:tracking-[0.3em]">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+            </span>
+            Available for new projects
+          </p>
+          <p className="flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-[0.25em] text-paper-faint sm:text-xs sm:tracking-[0.3em]">
+            <MapPin
+              className="h-3 w-3 text-accent sm:h-3.5 sm:w-3.5"
               aria-hidden="true"
             />
-          </Link>
-
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-1.5 rounded-full border border-line px-6 py-3 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
-          >
-            Get in touch <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+            Nanjing, China
+          </p>
         </motion.div>
+
+        {/* ============ MOBILE LAYOUT (below lg) ============ */}
+        <div className="lg:hidden">
+          {/* Oversized name, full-bleed feel, tight leading */}
+          <motion.h1
+            variants={reduce ? undefined : item}
+            className="mt-10 font-display leading-[0.88] tracking-tight"
+            style={{ fontSize: "clamp(3.25rem, 18vw, 6rem)" }}
+          >
+            <span className="block whitespace-nowrap">Temesgen</span>
+            <span className="block whitespace-nowrap italic text-accent-soft">
+              Gebremariam
+            </span>
+          </motion.h1>
+
+          {/* Asymmetric role strip — number + rule + role */}
+          <motion.div
+            variants={reduce ? undefined : item}
+            className="mt-8 flex items-center gap-3"
+          >
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-accent">
+              01
+            </span>
+            <span className="h-px flex-1 bg-line" />
+            <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-paper-faint">
+              Full-stack dev
+            </span>
+          </motion.div>
+
+          {/* Bio card — offset, boxed, distinct from desktop */}
+          <motion.div
+            variants={reduce ? undefined : item}
+            className="relative mt-6 border border-line bg-white/[0.02] p-5"
+          >
+            <p className="font-display text-xl leading-snug text-paper">
+              Full-stack developer &amp; founder of{" "}
+              <span className="text-accent-soft">temesgen.tech</span>
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-paper-dim">
+              I design and build scalable web platforms — from pixel to
+              production. MBA candidate researching data-driven forecasting, and
+              builder of tools that carry Ethiopian &amp; Tigrayan heritage into
+              modern software.
+            </p>
+            {/* Corner accent */}
+            <span
+              aria-hidden="true"
+              className="absolute -top-px -right-px h-6 w-6 border-t border-r border-accent/60"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute -bottom-px -left-px h-6 w-6 border-b border-l border-accent/60"
+            />
+          </motion.div>
+
+          {/* Stacked full-width CTAs */}
+          <motion.div
+            variants={reduce ? undefined : item}
+            className="mt-6 flex flex-col gap-3"
+          >
+            <Link
+              href="/projects"
+              className="group inline-flex w-full items-center justify-between rounded-full bg-accent px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
+            >
+              View my work
+              <ArrowRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex w-full items-center justify-between rounded-full border border-line px-6 py-3.5 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
+            >
+              Get in touch
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* ============ DESKTOP LAYOUT (lg and up) ============ */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:items-center lg:gap-16 lg:py-20">
+          <motion.h1
+            variants={reduce ? undefined : item}
+            className="min-w-0 font-display leading-[0.95] tracking-tight"
+            style={{ fontSize: "clamp(2.25rem, 7vw, 5.5rem)" }}
+          >
+            <span className="block whitespace-nowrap">Temesgen</span>
+            <span className="block whitespace-nowrap italic text-accent-soft">
+              Gebremariam
+            </span>
+          </motion.h1>
+
+          <motion.div
+            variants={reduce ? undefined : item}
+            className="min-w-0 max-w-xl"
+          >
+            <p className="font-display text-3xl leading-snug text-paper">
+              Full-stack developer &amp; founder of{" "}
+              <span className="text-accent-soft">temesgen.tech</span>
+            </p>
+            <p className="mt-4 leading-relaxed text-paper-dim">
+              I design and build scalable web platforms — from pixel to
+              production. MBA candidate researching data-driven forecasting, and
+              builder of tools that carry Ethiopian &amp; Tigrayan heritage into
+              modern software.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href="/projects"
+                className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
+              >
+                View my work
+                <ArrowRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line px-6 py-3 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
+              >
+                Get in touch{" "}
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
+
+      {/* Marquee strip */}
+      <div className="mt-12 border-y border-line bg-white/[0.02] py-4 lg:mt-0">
+        <Marquee
+          items={stack}
+          textClassName="font-mono text-xs uppercase tracking-[0.3em] not-italic text-paper-dim sm:text-sm"
+        />
+      </div>
+
+      {/* Stats — restyled for mobile as a 2-col card grid */}
+      <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-line px-5 sm:px-8 lg:grid-cols-4 lg:gap-0 lg:bg-transparent lg:divide-x lg:divide-line">
+        {stats.map((s) => (
+          <div
+            key={s.label}
+            className="bg-ink px-4 py-6 first:pl-4 sm:px-5 sm:py-8 lg:bg-transparent lg:px-5 lg:py-8 lg:first:pl-0"
+          >
+            <dt className="font-display text-2xl tracking-tight text-paper sm:text-3xl lg:text-4xl">
+              {s.value}
+            </dt>
+            <dd className="mt-2 text-[0.7rem] leading-snug text-paper-faint sm:text-xs">
+              {s.label}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

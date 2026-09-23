@@ -7,10 +7,10 @@ import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: "Home", index: "00" },
+  { href: "/about", label: "About", index: "01" },
+  { href: "/projects", label: "Projects", index: "02" },
+  { href: "/contact", label: "Contact", index: "03" },
 ];
 
 export default function Navbar() {
@@ -40,48 +40,55 @@ export default function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
         scrolled || open
-          ? "border-b border-line bg-ink/85 backdrop-blur-md"
+          ? "border-b border-line bg-ink/90 backdrop-blur-md"
           : "border-b border-transparent",
       )}
     >
       <nav
-        className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
+        className="mx-auto flex h-20 max-w-6xl items-center justify-between px-5 sm:px-8"
         aria-label="Main navigation"
       >
         <Link
           href="/"
-          className="font-display text-lg tracking-tight"
+          className="font-display text-xl tracking-tight"
           onClick={() => setOpen(false)}
         >
           Temesgen<span className="text-accent">.</span>tech
         </Link>
 
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               aria-current={pathname === l.href ? "page" : undefined}
-              className={cn(
-                "relative rounded-full px-4 py-2 text-sm transition-colors",
-                pathname === l.href
-                  ? "text-paper"
-                  : "text-paper-dim hover:text-paper",
-              )}
+              className="group relative py-2 text-sm"
             >
-              {l.label}
-              {pathname === l.href && (
-                <motion.span
-                  layoutId="nav-pill"
-                  className="absolute inset-0 -z-10 rounded-full bg-white/5 ring-1 ring-line"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
+              <span
+                className={cn(
+                  "flex items-center gap-2 transition-colors",
+                  pathname === l.href
+                    ? "text-paper"
+                    : "text-paper-dim group-hover:text-paper",
+                )}
+              >
+                <span className="font-mono text-[10px] text-accent">
+                  {l.index}
+                </span>
+                {l.label}
+              </span>
+              <span
+                className={cn(
+                  "absolute -bottom-0.5 left-0 h-px bg-accent transition-all duration-300",
+                  pathname === l.href ? "w-full" : "w-0 group-hover:w-full",
+                )}
+                aria-hidden="true"
+              />
             </Link>
           ))}
           <Link
             href="/contact"
-            className="ml-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-ink transition hover:bg-accent-soft"
+            className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-accent-soft"
           >
             Let&rsquo;s talk <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -107,7 +114,7 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="overflow-hidden border-t border-line bg-ink/95 backdrop-blur-md md:hidden"
           >
-            <div className="flex flex-col gap-1 px-5 py-4">
+            <div className="flex flex-col gap-1 px-5 py-6">
               {links.map((l, i) => (
                 <motion.div
                   key={l.href}
@@ -118,19 +125,20 @@ export default function Navbar() {
                   <Link
                     href={l.href}
                     className={cn(
-                      "block rounded-lg px-4 py-3 text-base",
-                      pathname === l.href
-                        ? "bg-white/5 text-paper"
-                        : "text-paper-dim",
+                      "flex items-center gap-3 rounded-lg px-4 py-4 font-display text-2xl tracking-tight",
+                      pathname === l.href ? "text-accent-soft" : "text-paper",
                     )}
                   >
+                    <span className="font-mono text-xs text-accent">
+                      {l.index}
+                    </span>
                     {l.label}
                   </Link>
                 </motion.div>
               ))}
               <Link
                 href="/contact"
-                className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 text-sm font-semibold text-ink"
+                className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-accent px-4 py-3 text-sm font-semibold text-ink"
               >
                 Let&rsquo;s talk <ArrowUpRight className="h-4 w-4" />
               </Link>

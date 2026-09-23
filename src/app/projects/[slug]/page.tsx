@@ -148,14 +148,16 @@ export default async function ProjectPage({
               View live demo{" "}
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </a>
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-medium text-paper-dim transition-colors hover:border-paper/30 hover:text-paper"
-            >
-              <FiGithub aria-hidden="true" /> Source code
-            </a>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-medium text-paper-dim transition-colors hover:border-paper/30 hover:text-paper"
+              >
+                <FiGithub aria-hidden="true" /> Source code
+              </a>
+            )}
           </div>
         </div>
       </Reveal>
@@ -170,8 +172,8 @@ export default async function ProjectPage({
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {more.map((p) => (
-            <ProjectCard key={p.slug} project={p} />
+          {more.map((p, i) => (
+            <ProjectCard key={p.slug} project={p} index={i} />
           ))}
         </div>
       </section>

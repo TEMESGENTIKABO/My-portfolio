@@ -16,9 +16,8 @@ export default function Home() {
     <>
       <Hero />
 
-      {/* About strip */}
       <section
-        className="border-y border-line bg-ink-800/40 py-20 md:py-24"
+        className="border-b border-line bg-ink-800/40 py-20 md:py-24"
         aria-labelledby="about-heading"
       >
         <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
@@ -43,7 +42,6 @@ export default function Home() {
 
       <SkillsSection />
 
-      {/* Featured work */}
       <section className="py-20 md:py-28" aria-labelledby="work-heading">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -64,13 +62,17 @@ export default function Home() {
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} priority={i === 0} />
+              <ProjectCard
+                key={p.slug}
+                project={p}
+                index={i}
+                priority={i === 0}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
       <section className="pb-24" aria-labelledby="cta-heading">
         <Reveal className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="rounded-3xl border border-line bg-gradient-to-br from-ink-700 to-ink px-8 py-14 text-center md:py-20">

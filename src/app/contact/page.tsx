@@ -38,12 +38,25 @@ const channels = [
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8 md:pt-40">
-      <SectionHeading
-        index="01"
-        eyebrow="Contact"
-        title="Let&rsquo;s build something together"
-        description="Have a role, a project, or just a question? Send a message and I will get back to you as soon as I can."
-      />
+      <div className="grid gap-4 border-b border-line pb-14 lg:grid-cols-[auto_1fr] lg:items-end lg:gap-16">
+        <SectionHeading
+          index="01"
+          eyebrow="Contact"
+          title={
+            <>
+              Let&rsquo;s build
+              <br />
+              something <span className="italic text-accent-soft">together</span>
+            </>
+          }
+        />
+        <Reveal delay={0.1}>
+          <p className="max-w-md leading-relaxed text-paper-dim">
+            Have a role, a project, or just a question? Send a message and I
+            will get back to you as soon as I can — usually within a day.
+          </p>
+        </Reveal>
+      </div>
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_1.4fr]">
         <Reveal>
@@ -88,6 +101,20 @@ export default function ContactPage() {
                   {socialIcons[s.icon]}
                 </a>
               ))}
+            </div>
+
+            <div className="rounded-2xl border border-accent/30 bg-accent/[0.06] p-5">
+              <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-accent">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+                Currently available
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-paper-dim">
+                Open to freelance projects, full-time roles, and collaborations
+                starting immediately.
+              </p>
             </div>
           </div>
         </Reveal>

@@ -6,19 +6,28 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: "#0A0B0E",
-          800: "#101218",
-          700: "#161922",
-          600: "#1E2230",
+          DEFAULT: "#08090C",
+          800: "#0E1015",
+          700: "#14161D",
+          600: "#1C1F2A",
         },
-        paper: { DEFAULT: "#ECEAE4", dim: "#A6ABB5", faint: "#6E7480" },
-        accent: { DEFAULT: "#E0A63F", soft: "#EFC878" },
-        line: "rgba(236,234,228,0.09)",
+        paper: { DEFAULT: "#F3F1EA", dim: "#ACB0BA", faint: "#6E7480" },
+        accent: { DEFAULT: "#E0A63F", soft: "#F4CE85" },
+        line: "rgba(243,241,234,0.09)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "Georgia", "serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 28s linear infinite",
       },
     },
   },
