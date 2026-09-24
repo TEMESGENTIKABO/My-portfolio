@@ -1,6 +1,7 @@
 export interface Skill {
   name: string;
   icon: string;
+  kind?: "devicon" | "lucide";
   proficiency: number;
   description: string;
 }
@@ -18,7 +19,8 @@ export const skills: SkillCategory[] = [
         name: "React",
         icon: "react",
         proficiency: 90,
-        description: "Building dynamic and responsive UIs with React and Next.js.",
+        description:
+          "Building dynamic and responsive UIs with React and Next.js.",
       },
       {
         name: "TypeScript",
@@ -42,7 +44,8 @@ export const skills: SkillCategory[] = [
         name: "Angular",
         icon: "angular",
         proficiency: 60,
-        description: "Developing enterprise-scale applications with Angular framework.",
+        description:
+          "Developing enterprise-scale applications with Angular framework.",
       },
       {
         name: "Jest",
@@ -100,6 +103,58 @@ export const skills: SkillCategory[] = [
     ],
   },
   {
+    title: "AI-Augmented Development",
+    skills: [
+      {
+        name: "Claude",
+        icon: "bot",
+        kind: "lucide",
+        proficiency: 90,
+        description:
+          "Pair-programming, architecture review, and shipping production code faster with Claude.",
+      },
+      {
+        name: "Prompt Engineering",
+        icon: "wand",
+        kind: "lucide",
+        proficiency: 85,
+        description:
+          "Structuring prompts and context for reliable, production-grade AI output.",
+      },
+      {
+        name: "GitHub Copilot",
+        icon: "sparkles",
+        kind: "lucide",
+        proficiency: 80,
+        description: "In-editor AI pair programming for faster iteration.",
+      },
+      {
+        name: "ChatGPT / GPT-4 API",
+        icon: "message-square",
+        kind: "lucide",
+        proficiency: 85,
+        description:
+          "Building AI-powered features and using GPT-4 for research, drafting, and debugging.",
+      },
+      {
+        name: "LangChain / RAG",
+        icon: "brain",
+        kind: "lucide",
+        proficiency: 70,
+        description:
+          "Retrieval-augmented pipelines for grounding LLM output in real data.",
+      },
+      {
+        name: "Cursor",
+        icon: "terminal",
+        kind: "lucide",
+        proficiency: 80,
+        description:
+          "AI-native code editor for faster refactors and codebase navigation.",
+      },
+    ],
+  },
+  {
     title: "DevOps",
     skills: [
       {
@@ -148,7 +203,8 @@ export const skills: SkillCategory[] = [
         name: "Nginx",
         icon: "nginx",
         proficiency: 75,
-        description: "Setting up reverse proxies and load balancers with Nginx.",
+        description:
+          "Setting up reverse proxies and load balancers with Nginx.",
       },
     ],
   },

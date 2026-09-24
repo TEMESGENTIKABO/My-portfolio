@@ -1,8 +1,19 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
 import { ArrowRight, ArrowUpRight, MapPin } from "lucide-react";
 import Marquee from "@/components/Marquee";
+import Magnetic from "@/components/Magnetic";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import { cn } from "@/lib/utils";
 
 const container: Variants = {
   hidden: {},
@@ -18,11 +29,21 @@ const item: Variants = {
   },
 };
 
-const stats = [
-  { value: "5+", label: "Years shipping products" },
-  { value: "10+", label: "Applications launched" },
+const roles = [
+  "Full-stack Developer",
+  "AI-Augmented Engineer",
+  "temesgen.tech",
+];
+
+type Stat =
+  | { target: number; suffix: string; label: string }
+  | { value: string; label: string };
+
+const stats: Stat[] = [
+  { target: 5, suffix: "+", label: "Years shipping products" },
+  { target: 10, suffix: "+", label: "Applications launched" },
   { value: "MBA", label: "Business × engineering" },
-  { value: "2", label: "Languages I build in — English & Amharic" },
+  { target: 2, suffix: "", label: "Languages I build in — English & Amharic" },
 ];
 
 const stack = [
@@ -36,11 +57,81 @@ const stack = [
   "Tailwind CSS",
 ];
 
-export default function Hero() {
-  const reduce = useReducedMotion();
+function RotatingWord({
+  words,
+  reduce,
+  className,
+}: {
+  words: string[];
+  reduce: boolean | null;
+  className?: string;
+}) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % words.length), 2600);
+    return () => clearInterval(id);
+  }, [reduce, words.length]);
 
   return (
-    <section className="relative overflow-hidden border-b border-line pt-28 md:pt-40">
+    <span className={cn("relative inline-block align-bottom", className)}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={words[index]}
+          initial={reduce ? undefined : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduce ? undefined : { opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="inline-block"
+        >
+          {words[index]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+export default function Hero() {
+  const reduce = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const [time, setTime] = useState("");
+
+  // Live Nanjing time — fills in after mount, so no hydration mismatch.
+  useEffect(() => {
+    const update = () =>
+      setTime(
+        new Intl.DateTimeFormat("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "Asia/Shanghai",
+        }).format(new Date()),
+      );
+    update();
+    const id = setInterval(update, 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Cursor-reactive spotlight (desktop only, uses motion values so it
+  // never triggers a React re-render on mousemove).
+  const mvX = useMotionValue(50);
+  const mvY = useMotionValue(50);
+  const spotlight = useMotionTemplate`radial-gradient(600px circle at ${mvX}% ${mvY}%, rgba(224,166,63,0.12), transparent 60%)`;
+
+  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+    const el = heroRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    mvX.set(((e.clientX - rect.left) / rect.width) * 100);
+    mvY.set(((e.clientY - rect.top) / rect.height) * 100);
+  }
+
+  return (
+    <section
+      ref={heroRef}
+      onMouseMove={handleMouseMove}
+      className="relative overflow-hidden border-b border-line pt-28 md:pt-40"
+    >
       {/* Background grid + glow */}
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(243,241,234,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(243,241,234,0.045)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
@@ -49,6 +140,13 @@ export default function Hero() {
           animate={reduce ? undefined : { opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
         />
+        {!reduce && (
+          <motion.div
+            aria-hidden="true"
+            style={{ background: spotlight }}
+            className="absolute inset-0 hidden lg:block"
+          />
+        )}
       </div>
 
       <motion.div
@@ -75,24 +173,27 @@ export default function Hero() {
               aria-hidden="true"
             />
             Nanjing, China
+            {time && (
+              <span className="text-paper-faint/70">
+                · <span suppressHydrationWarning>{time}</span> local
+              </span>
+            )}
           </p>
         </motion.div>
 
         {/* ============ MOBILE LAYOUT (below lg) ============ */}
         <div className="lg:hidden">
-          {/* Oversized name, full-bleed feel, tight leading */}
           <motion.h1
             variants={reduce ? undefined : item}
             className="mt-10 font-display leading-[0.88] tracking-tight"
             style={{ fontSize: "clamp(3.25rem, 18vw, 6rem)" }}
           >
-            <span className="block whitespace-nowrap">Temesgen</span>
+            <span className="block whitespace-nowrap">Temesgen T.</span>
             <span className="block whitespace-nowrap italic text-accent-soft">
               Gebremariam
             </span>
           </motion.h1>
 
-          {/* Asymmetric role strip — number + rule + role */}
           <motion.div
             variants={reduce ? undefined : item}
             className="mt-8 flex items-center gap-3"
@@ -101,12 +202,13 @@ export default function Hero() {
               01
             </span>
             <span className="h-px flex-1 bg-line" />
-            <span className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-paper-faint">
-              Full-stack dev
-            </span>
+            <RotatingWord
+              words={roles}
+              reduce={reduce}
+              className="font-mono text-[0.65rem] uppercase tracking-[0.3em] text-paper-faint"
+            />
           </motion.div>
 
-          {/* Bio card — offset, boxed, distinct from desktop */}
           <motion.div
             variants={reduce ? undefined : item}
             className="relative mt-6 border border-line bg-white/[0.02] p-5"
@@ -116,12 +218,12 @@ export default function Hero() {
               <span className="text-accent-soft">temesgen.tech</span>
             </p>
             <p className="mt-3 text-sm leading-relaxed text-paper-dim">
-              I design and build scalable web platforms — from pixel to
-              production. MBA candidate researching data-driven forecasting, and
-              builder of tools that carry Ethiopian &amp; Tigrayan heritage into
-              modern software.
+              Full-stack JavaScript developer and builder. I work across the
+              modern software stack, employ AI as a working tool, and ship
+              production-grade code faster without cutting corners on quality.
+              MBA candidate researching data-driven forecasting — additional
+              certificate, not the identity.
             </p>
-            {/* Corner accent */}
             <span
               aria-hidden="true"
               className="absolute -top-px -right-px h-6 w-6 border-t border-r border-accent/60"
@@ -132,7 +234,6 @@ export default function Hero() {
             />
           </motion.div>
 
-          {/* Stacked full-width CTAs */}
           <motion.div
             variants={reduce ? undefined : item}
             className="mt-6 flex flex-col gap-3"
@@ -175,32 +276,37 @@ export default function Hero() {
             className="min-w-0 max-w-xl"
           >
             <p className="font-display text-3xl leading-snug text-paper">
-              Full-stack developer
+              <RotatingWord words={roles} reduce={reduce} />
             </p>
             <p className="mt-4 leading-relaxed text-paper-dim">
               Full-stack JavaScript developer and builder. I work across the
-              modern software stack, employ AI as a working tool, and ship tools
-              that carry into production. MBA candidate researching data-driven
-              forecasting — additional certificate, not the identity.
+              modern software stack, employ AI as a working tool, and ship
+              production-grade code faster without cutting corners on quality.
+              MBA candidate researching data-driven forecasting — additional
+              certificate, not the identity.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                href="/projects"
-                className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
-              >
-                View my work
-                <ArrowRight
-                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-1.5 rounded-full border border-line px-6 py-3 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
-              >
-                Get in touch{" "}
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+              <Magnetic>
+                <Link
+                  href="/projects"
+                  className="group inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
+                >
+                  View my work
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
+                </Link>
+              </Magnetic>
+              <Magnetic strength={10}>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line px-6 py-3 text-sm text-paper-dim transition hover:border-paper/30 hover:text-paper"
+                >
+                  Get in touch{" "}
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Magnetic>
             </div>
           </motion.div>
         </div>
@@ -214,7 +320,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* Stats — restyled for mobile as a 2-col card grid */}
+      {/* Stats */}
       <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-line px-5 sm:px-8 lg:grid-cols-4 lg:gap-0 lg:bg-transparent lg:divide-x lg:divide-line">
         {stats.map((s) => (
           <div
@@ -222,7 +328,11 @@ export default function Hero() {
             className="bg-ink px-4 py-6 first:pl-4 sm:px-5 sm:py-8 lg:bg-transparent lg:px-5 lg:py-8 lg:first:pl-0"
           >
             <dt className="font-display text-2xl tracking-tight text-paper sm:text-3xl lg:text-4xl">
-              {s.value}
+              {"target" in s ? (
+                <AnimatedCounter target={s.target} suffix={s.suffix} />
+              ) : (
+                s.value
+              )}
             </dt>
             <dd className="mt-2 text-[0.7rem] leading-snug text-paper-faint sm:text-xs">
               {s.label}
@@ -230,6 +340,20 @@ export default function Hero() {
           </div>
         ))}
       </dl>
+
+      {/* Scroll cue */}
+      <div className="hidden justify-center pb-10 pt-2 lg:flex">
+        <motion.div
+          animate={reduce ? undefined : { y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2 text-paper-faint"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em]">
+            Scroll
+          </span>
+          <span className="h-8 w-px bg-gradient-to-b from-accent to-transparent" />
+        </motion.div>
+      </div>
     </section>
   );
 }

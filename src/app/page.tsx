@@ -4,6 +4,10 @@ import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import SectionHeading from "@/components/SectionHeading";
 import SkillsSection from "@/components/SkillsSection";
+import MultiTrackBoard from "@/components/MultiTrackBoard";
+import WeeklyRhythm from "@/components/WeeklyRhythm";
+import ProcessSection from "@/components/ProcessSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import ProjectCard from "@/components/ProjectCard";
 import ResumeButton from "@/components/ResumeButton";
 import { projects } from "@/data/projects";
@@ -16,13 +20,16 @@ export default function Home() {
     <>
       <Hero />
 
+      <SkillsSection />
+
+      {/* About strip */}
       <section
-        className="border-b border-line bg-ink-800/40 py-20 md:py-24"
+        className="border-y border-line bg-ink-800/40 py-20 md:py-24"
         aria-labelledby="about-heading"
       >
         <div className="mx-auto grid max-w-6xl gap-10 px-5 sm:px-8 md:grid-cols-[1fr_1.4fr] md:gap-16">
           <SectionHeading
-            index="01"
+            index="02"
             eyebrow="About"
             title="Engineer, problem-solver, lifelong learner"
           />
@@ -40,13 +47,18 @@ export default function Home() {
         </div>
       </section>
 
-      <SkillsSection />
+      <MultiTrackBoard />
 
+      <WeeklyRhythm />
+
+      <ProcessSection />
+
+      {/* Featured work */}
       <section className="py-20 md:py-28" aria-labelledby="work-heading">
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
-              index="03"
+              index="06"
               eyebrow="Portfolio"
               title="Selected work"
               description="A few projects that show how I approach real problems — performance, scale and user experience first."
@@ -73,7 +85,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="pb-24" aria-labelledby="cta-heading">
+      <TestimonialsSection />
+
+      {/* Contact CTA */}
+      <section className="pb-24 pt-20" aria-labelledby="cta-heading">
         <Reveal className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="rounded-3xl border border-line bg-gradient-to-br from-ink-700 to-ink px-8 py-14 text-center md:py-20">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
