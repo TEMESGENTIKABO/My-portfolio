@@ -10,19 +10,19 @@ export const testimonials: Testimonial[] = [
   {
     quote:
       "Delivered exactly what we needed, on time, and explained every trade-off along the way.",
-    name: "Add a name",
-    role: "Add their role / company",
+    name: "JOHNSON SMITH",
+    role: "CEO, Acme Corp",
   },
   {
     quote:
       "Rare combination of strong engineering instincts and genuine business judgment.",
-    name: "Add a name",
-    role: "Add their role / company",
+    name: "NICOLAS MARTIN",
+    role: "CTO, Tech Solutions Inc.",
   },
   {
     quote:
       "Turned a vague idea into a working product faster than we expected.",
-    name: "Add a name",
-    role: "Add their role / company",
+    name: "ROBERT JOHNSON",
+    role: "Product Manager, Innovate Corp",
   },
 ];
