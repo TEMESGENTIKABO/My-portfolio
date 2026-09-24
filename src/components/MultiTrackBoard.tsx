@@ -35,6 +35,7 @@ function Pulse({ delay = 0 }: { delay?: number }) {
 export default function MultiTrackBoard() {
   return (
     <section
+      id="tracks"
       className="border-y border-line py-20 md:py-28"
       aria-labelledby="tracks-heading"
     >

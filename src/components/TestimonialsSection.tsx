@@ -22,6 +22,7 @@ export default function TestimonialsSection() {
 
   return (
     <section
+      id="testimonials"
       className="border-y border-line bg-ink-800/40 py-20 md:py-28"
       aria-labelledby="testimonials-heading"
     >

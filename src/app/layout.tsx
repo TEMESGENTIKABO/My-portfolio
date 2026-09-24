@@ -7,6 +7,7 @@ import CommandPalette from "@/components/CommandPalette";
 import ShortcutsModal from "@/components/ShortcutsModal";
 import ScrollProgress from "@/components/ScrollProgress";
 import NowBadge from "@/components/NowBadge";
+import QuickMessage from "@/components/QuickMessage";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CommandPalette />
         <ShortcutsModal />
         <NowBadge />
+        <QuickMessage />
       </body>
     </html>
   );

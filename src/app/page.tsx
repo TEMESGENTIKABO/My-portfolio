@@ -12,18 +12,19 @@ import ProjectCard from "@/components/ProjectCard";
 import ResumeButton from "@/components/ResumeButton";
 import { projects } from "@/data/projects";
 import { aboutData } from "@/data/about";
-
+import SectionNav from "@/components/SectionNav";
 export default function Home() {
   const featured = projects.slice(0, 3);
 
   return (
     <>
       <Hero />
-
+      <SectionNav />
       <SkillsSection />
 
       {/* About strip */}
       <section
+        id="about"
         className="border-y border-line bg-ink-800/40 py-20 md:py-24"
         aria-labelledby="about-heading"
       >
@@ -54,7 +55,11 @@ export default function Home() {
       <ProcessSection />
 
       {/* Featured work */}
-      <section className="py-20 md:py-28" aria-labelledby="work-heading">
+      <section
+        id="work"
+        className="py-20 md:py-28"
+        aria-labelledby="work-heading"
+      >
         <div className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading
@@ -88,7 +93,11 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* Contact CTA */}
-      <section className="pb-24 pt-20" aria-labelledby="cta-heading">
+      <section
+        id="contact-cta"
+        className="pb-24 pt-20"
+        aria-labelledby="cta-heading"
+      >
         <Reveal className="mx-auto max-w-6xl px-5 sm:px-8">
           <div className="rounded-3xl border border-line bg-gradient-to-br from-ink-700 to-ink px-8 py-14 text-center md:py-20">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">

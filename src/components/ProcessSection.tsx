@@ -14,7 +14,11 @@ const icons: Record<ProcessStep["icon"], typeof Compass> = {
 
 export default function ProcessSection() {
   return (
-    <section className="py-20 md:py-28" aria-labelledby="process-heading">
+    <section
+      id="process"
+      className="py-20 md:py-28"
+      aria-labelledby="process-heading"
+    >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           index="05"

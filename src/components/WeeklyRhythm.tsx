@@ -27,7 +27,11 @@ export default function WeeklyRhythm() {
   const grandTotal = totals.reduce((a, b) => a + b, 0);
 
   return (
-    <section className="py-20 md:py-28" aria-labelledby="rhythm-heading">
+    <section
+      id="rhythm"
+      className="py-20 md:py-28"
+      aria-labelledby="rhythm-heading"
+    >
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeading
           index="04"
