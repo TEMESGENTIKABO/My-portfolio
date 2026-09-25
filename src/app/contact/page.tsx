@@ -4,6 +4,7 @@ import { FiGithub, FiLinkedin, FiMail, FiTwitter } from "react-icons/fi";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
+import CopyButton from "@/components/CopyButton";
 import { contactData } from "@/data/contact";
 
 export const metadata: Metadata = {
@@ -46,7 +47,8 @@ export default function ContactPage() {
             <>
               Let&rsquo;s build
               <br />
-              something <span className="italic text-accent-soft">together</span>
+              something{" "}
+              <span className="italic text-accent-soft">together</span>
             </>
           }
         />
@@ -64,27 +66,32 @@ export default function ContactPage() {
             {channels.map((c) => (
               <div
                 key={c.label}
-                className="flex items-start gap-4 rounded-2xl border border-line bg-white/[0.02] p-5"
+                className="flex items-start justify-between gap-4 rounded-2xl border border-line bg-white/[0.02] p-5"
               >
-                <c.icon
-                  className="mt-0.5 h-5 w-5 shrink-0 text-accent"
-                  aria-hidden="true"
-                />
-                <div>
-                  <p className="font-mono text-xs uppercase tracking-widest text-paper-faint">
-                    {c.label}
-                  </p>
-                  {c.href ? (
-                    <a
-                      href={c.href}
-                      className="mt-1 block text-sm text-paper transition-colors hover:text-accent"
-                    >
-                      {c.value}
-                    </a>
-                  ) : (
-                    <p className="mt-1 text-sm text-paper">{c.value}</p>
-                  )}
+                <div className="flex items-start gap-4">
+                  <c.icon
+                    className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <p className="font-mono text-xs uppercase tracking-widest text-paper-faint">
+                      {c.label}
+                    </p>
+                    {c.href ? (
+                      <a
+                        href={c.href}
+                        className="mt-1 block text-sm text-paper transition-colors hover:text-accent"
+                      >
+                        {c.value}
+                      </a>
+                    ) : (
+                      <p className="mt-1 text-sm text-paper">{c.value}</p>
+                    )}
+                  </div>
                 </div>
+                {c.label === "Email" && (
+                  <CopyButton value={c.value} label="Email" />
+                )}
               </div>
             ))}
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { FiGithub, FiLinkedin, FiMail, FiTwitter } from "react-icons/fi";
 import Marquee from "@/components/Marquee";
+import CopyButton from "@/components/CopyButton";
 import { contactData } from "@/data/contact";
 
 const navLinks = [
@@ -41,8 +42,25 @@ export default function Footer() {
       </Link>
 
       <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8">
+        {/* Get in touch */}
+        <div className="border-b border-line pb-6">
+          <p className="font-mono text-xs uppercase tracking-widest text-paper-faint">
+            Get in touch
+          </p>
+          <div className="mt-4 flex items-center gap-2">
+            <a
+              href={`mailto:${contactData.email}`}
+              className="inline-flex items-center gap-1.5 text-sm text-paper-dim transition-colors hover:text-accent"
+            >
+              {contactData.email} <ArrowUpRight className="h-3.5 w-3.5" />
+            </a>
+            <CopyButton value={contactData.email} label="Email" />
+          </div>
+          <p className="mt-3 text-sm text-paper-dim">{contactData.phone}</p>
+        </div>
+
         {/* Main row */}
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           {/* Brand + tagline */}
           <div className="flex items-center gap-4">
             <Link
@@ -100,14 +118,6 @@ export default function Footer() {
         <div className="mt-6 flex flex-col gap-3 border-t border-line pt-5 text-xs text-paper-faint sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {year} Temesgen T. Gebremariam. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <a
-              href={`mailto:${contactData.email}`}
-              className="inline-flex items-center gap-1 transition-colors hover:text-accent"
-            >
-              {contactData.email}
-              <ArrowUpRight className="h-3 w-3" />
-            </a>
-            <span className="hidden text-paper-faint/50 sm:inline">·</span>
             <span>{contactData.phone}</span>
             <span className="hidden text-paper-faint/50 sm:inline">·</span>
             <span>Built with Next.js &amp; Tailwind</span>

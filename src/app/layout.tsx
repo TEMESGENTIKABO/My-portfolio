@@ -8,6 +8,11 @@ import ShortcutsModal from "@/components/ShortcutsModal";
 import ScrollProgress from "@/components/ScrollProgress";
 import NowBadge from "@/components/NowBadge";
 import QuickMessage from "@/components/QuickMessage";
+import SectionSheet from "@/components/SectionSheet";
+import MobileDock from "@/components/MobileDock";
+import GeezEasterEgg from "@/components/GeezEasterEgg";
+import { OverlayProvider } from "@/context/OverlayContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-display", display: "swap" });
@@ -33,26 +38,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}>
       <body>
-        <ScrollProgress />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none fixed inset-0 z-[1] bg-grain opacity-[0.06] mix-blend-overlay"
-        />
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink"
-        >
-          Skip to content
-        </a>
-        <Navbar />
-        <main id="main" className="relative">
-          {children}
-        </main>
-        <Footer />
-        <CommandPalette />
-        <ShortcutsModal />
-        <NowBadge />
-        <QuickMessage />
+        <ToastProvider>
+          <OverlayProvider>
+            <ScrollProgress />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none fixed inset-0 z-[1] bg-grain opacity-[0.06] mix-blend-overlay"
+            />
+            
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-ink"
+            >
+              Skip to content
+            </a>
+            <Navbar />
+            <main id="main" className="relative pb-24 md:pb-0">
+              {children}
+            </main>
+            <Footer />
+            <CommandPalette />
+            <ShortcutsModal />
+            <NowBadge />
+            <QuickMessage />
+            <SectionSheet />
+            <MobileDock />
+            <GeezEasterEgg />
+          </OverlayProvider>
+        </ToastProvider>
       </body>
     </html>
   );

@@ -13,6 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { contactData } from "@/data/contact";
+import { useOverlay } from "@/context/OverlayContext";
 
 interface PaletteItem {
   label: string;
@@ -22,7 +23,8 @@ interface PaletteItem {
 }
 
 export default function CommandPalette() {
-  const [open, setOpen] = useState(false);
+  const { overlay, open, close } = useOverlay();
+  const isOpen = overlay === "palette";
   const [query, setQuery] = useState("");
   const router = useRouter();
 
@@ -30,21 +32,21 @@ export default function CommandPalette() {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((v) => !v);
+        open(isOpen ? null : "palette");
       }
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") close();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [isOpen, open, close]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    if (open) setQuery("");
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    if (isOpen) setQuery("");
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [isOpen]);
 
   const githubUrl = contactData.socialLinks.find(
     (s) => s.icon === "github",
@@ -87,14 +89,14 @@ export default function CommandPalette() {
 
   function run(item: PaletteItem) {
     item.action();
-    setOpen(false);
+    close();
   }
 
   return (
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => open("palette")}
         className="fixed bottom-6 right-6 z-40 hidden items-center gap-2 rounded-full border border-line bg-ink/80 px-4 py-2.5 font-mono text-xs text-paper-dim backdrop-blur transition-colors hover:border-accent/50 hover:text-paper md:inline-flex"
         aria-label="Open command palette"
       >
@@ -106,13 +108,13 @@ export default function CommandPalette() {
       </button>
 
       <AnimatePresence>
-        {open && (
+        {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70] flex items-start justify-center bg-ink/80 px-5 pt-24 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-[70] flex items-start justify-center bg-ink/80 px-5 pt-[max(6rem,env(safe-area-inset-top))] backdrop-blur-sm"
+            onClick={close}
           >
             <motion.div
               initial={{ opacity: 0, y: -12, scale: 0.98 }}

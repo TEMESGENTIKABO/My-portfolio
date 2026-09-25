@@ -1,39 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { sections } from "@/data/sections";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
 
-const sections = [
-  { id: "hero", label: "Home" },
-  { id: "skills", label: "Skills" },
-  { id: "about", label: "About" },
-  { id: "tracks", label: "Now" },
-  { id: "rhythm", label: "Rhythm" },
-  { id: "process", label: "Process" },
-  { id: "work", label: "Work" },
-  { id: "testimonials", label: "Words" },
-  { id: "contact-cta", label: "Contact" },
-];
-
 export default function SectionNav() {
-  const [active, setActive] = useState(sections[0].id);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 },
-    );
-
-    sections.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  const active = useActiveSection(sections.map((s) => s.id));
 
   return (
     <nav

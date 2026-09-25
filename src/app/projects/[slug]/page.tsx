@@ -2,11 +2,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Layers, Target, Wrench } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  CheckCircle2,
+  Layers,
+  Target,
+  Wrench,
+} from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import { projects } from "@/data/projects";
 import Reveal from "@/components/Reveal";
 import ProjectCard from "@/components/ProjectCard";
+import ShareProjectButton from "@/components/ShareProjectButton";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -19,7 +27,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  return { title: project?.title ?? "Project", description: project?.description };
+  return {
+    title: project?.title ?? "Project",
+    description: project?.description,
+  };
 }
 
 export default async function ProjectPage({
@@ -55,7 +66,10 @@ export default async function ProjectPage({
       <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_320px]">
         <div>
           <Reveal delay={0.05}>
-            <ul className="flex flex-wrap gap-2" aria-label="Project categories">
+            <ul
+              className="flex flex-wrap gap-2"
+              aria-label="Project categories"
+            >
               {project.categories.map((c) => (
                 <li
                   key={c}
@@ -94,7 +108,9 @@ export default async function ProjectPage({
                   <p className="mt-3 font-mono text-xs uppercase tracking-[0.3em] text-accent">
                     {s.label}
                   </p>
-                  <p className="mt-3 leading-relaxed text-paper-dim">{s.text}</p>
+                  <p className="mt-3 leading-relaxed text-paper-dim">
+                    {s.text}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -129,7 +145,10 @@ export default async function ProjectPage({
               <p className="font-mono text-[11px] uppercase tracking-widest text-paper-faint">
                 Stack
               </p>
-              <ul className="mt-3 flex flex-wrap gap-2" aria-label="Technologies used">
+              <ul
+                className="mt-3 flex flex-wrap gap-2"
+                aria-label="Technologies used"
+              >
                 {project.tech.map((t) => (
                   <li
                     key={t}
@@ -147,7 +166,8 @@ export default async function ProjectPage({
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-accent-soft"
               >
-                View live demo <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                View live demo{" "}
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
               {project.githubUrl && (
                 <a
@@ -159,6 +179,9 @@ export default async function ProjectPage({
                   <FiGithub aria-hidden="true" /> Source code
                 </a>
               )}
+              <div className="pt-1 text-center">
+                <ShareProjectButton slug={project.slug} />
+              </div>
             </div>
           </div>
         </Reveal>
@@ -166,7 +189,10 @@ export default async function ProjectPage({
 
       <section className="mt-24" aria-labelledby="more-heading">
         <Reveal>
-          <h2 id="more-heading" className="font-display text-3xl tracking-tight">
+          <h2
+            id="more-heading"
+            className="font-display text-3xl tracking-tight"
+          >
             More projects
           </h2>
         </Reveal>

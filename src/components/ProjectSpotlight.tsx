@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { FiGithub } from "react-icons/fi";
 import type { Project } from "@/data/projects";
+import ShareProjectButton from "@/components/ShareProjectButton";
 
 export default function ProjectSpotlight({ project }: { project: Project }) {
   return (
@@ -39,7 +40,9 @@ export default function ProjectSpotlight({ project }: { project: Project }) {
               {project.title}
             </Link>
           </h3>
-          <p className="leading-relaxed text-paper-dim">{project.description}</p>
+          <p className="leading-relaxed text-paper-dim">
+            {project.description}
+          </p>
           <ul className="flex flex-wrap gap-2" aria-label="Technologies used">
             {project.tech.slice(0, 5).map((t) => (
               <li
@@ -57,7 +60,8 @@ export default function ProjectSpotlight({ project }: { project: Project }) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-medium text-paper transition-colors hover:text-accent"
             >
-              Live demo <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              Live demo{" "}
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
             {project.githubUrl && (
               <a
@@ -69,11 +73,13 @@ export default function ProjectSpotlight({ project }: { project: Project }) {
                 <FiGithub aria-hidden="true" /> Code
               </a>
             )}
+            <ShareProjectButton slug={project.slug} />
             <Link
               href={`/projects/${project.slug}`}
               className="inline-flex items-center gap-1.5 text-paper-dim transition-colors hover:text-accent sm:ml-auto"
             >
-              Case study <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+              Case study{" "}
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
         </div>
